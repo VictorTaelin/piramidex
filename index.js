@@ -75,13 +75,13 @@ const Token = (token, user, buy, sell) => {
     </thead>
     <tbody style={{fontFamily:"monospace", color: "#707177"}}>
       <tr>
-        {cell(["Price: ", Value(token.price)], 160)}
-        {cell(["YouOwn: ", (!user ? "-" : user.tokens[token.name] || 0)], 120)}
+        {cell(["Price: ", Value(token.price)], 140)}
+        {cell(["YouOwn: ", (!user ? "-" : user.tokens[token.name] || 0)], 100)}
         {cell(Buy, 40, true)}
       </tr>
       <tr>
-        {cell(["MkCap: ", Value(token.price * token.count)], 160)}
-        {cell(["Supply: ", token.count], 120)}
+        {cell(["MkCap: ", Value(token.price * token.count)], 140)}
+        {cell(["Supply: ", token.count], 100)}
         {cell(Sell, 40, true)}
       </tr>
     </tbody>
@@ -230,7 +230,7 @@ const Piramidex = createClass({
       </tr>
       <tr>
         <td>Contract address:</td>
-        <td>{pirAddr}</td>
+        <td>{Link("show", () => alert(pirAddr))}</td>
       </tr>
       <tr>
         <td>Contract balance:</td>
@@ -256,7 +256,7 @@ const Piramidex = createClass({
       </tr>
       <tr>
         <td>Your Address:</td>
-        <td>{account.address}</td>
+        <td>{Link("show", () => alert(account.address))}</td>
       </tr>
       <tr>
         <td>Your Private Key:</td>
