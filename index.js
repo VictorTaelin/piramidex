@@ -222,10 +222,10 @@ const Piramidex = createClass({
       fontFamily: "monospace"}}>
       <tr>
         <td>Network:</td>
-        <td>Rinkeby (Ethereum PoA testnet)</td>
+        <td>Ethereum (Rinkeby)</td>
       </tr>
       <tr>
-        <td>Network block number:</td>
+        <td>Network blocknum:</td>
         <td>{this.state.piramidex.blockNumber}</td>
       </tr>
       <tr>
@@ -237,11 +237,11 @@ const Piramidex = createClass({
         <td>{Value(this.state.piramidex.balance)}</td>
       </tr>
       <tr>
-        <td>Contract token count:</td>
+        <td>Contract tokens:</td>
         <td>{this.state.piramidex.tokensLength}</td>
       </tr>
       <tr>
-        <td>Contract registered users:</td>
+        <td>Contract users:</td>
         <td>{this.state.piramidex.usersLength}</td>
       </tr>
       <tr>
@@ -251,15 +251,15 @@ const Piramidex = createClass({
         </td>
       </tr>
       <tr>
-        <td>Your Balance:</td>
+        <td>Your balance:</td>
         <td>{Value(account.balance)}</td>
       </tr>
       <tr>
-        <td>Your Address:</td>
+        <td>Your address:</td>
         <td>{Link("show", () => alert(account.address))}</td>
       </tr>
       <tr>
-        <td>Your Private Key:</td>
+        <td>Your private key:</td>
         <td>
           {Link("show", () => alert(account.privateKey))}
           {" "}
