@@ -19,19 +19,20 @@ const Area = createClass({
       style={{
         width: "100%",
         lineHeight: "32px",
-        fontFamily: "verdana",
+        fontFamily: "helvetica",
       }}>
       <div
         onClick={() => this.toggle()}
         style={{
           fontSize: "18px",
           cursor: "pointer",
+          textDecoration: "underline",
           padding: "4px"}}>
         <span>{this.props.title}</span>
         {!this.props.right ? null : <span style={{float:"right"}}>{this.props.right}</span>}
       </div>
       {this.state.expand
-        ? <div style={{padding:"4px", backgroundColor: "#FEFEFE"}}>
+        ? <div style={{padding:"4px"}}>
           {this.props.children}
         </div>
         : null}
@@ -57,14 +58,14 @@ const Value = eth => {
 };
 
 const Token = (token, user, buy, sell) => {
-  const cell = (child, last) => {
-    return <td style={{textAlign: last ? "right" : "left", fontSize: "13px"}}>
+  const cell = (child, width, last) => {
+    return <td style={{width: width+"px", textAlign: last ? "right" : "left", fontSize: "13px"}}>
       {child}
     </td>;
   };
   const Buy = Link("BUY", () => buy(token));
   const Sell = Link("SELL", () => sell(token));
-  return <table style={{width:"100%", maxWidth: "360px", marginBottom:"6px"}}>
+  return <table style={{marginBottom: "6px"}}>
     <thead style={{fontSize:"16px"}}>
       <tr>
         <td colspan={3}>
@@ -72,16 +73,16 @@ const Token = (token, user, buy, sell) => {
         </td>
       </tr>
     </thead>
-    <tbody style={{fontFamily:"monospace"}}>
+    <tbody style={{fontFamily:"monospace", color: "#707177"}}>
       <tr>
-        {cell(["Price: ", Value(token.price)])}
-        {cell(["YouOwn: ", (!user ? "-" : user.tokens[token.name] || 0)])}
-        {cell(Buy, true)}
+        {cell(["Price: ", Value(token.price)], 160)}
+        {cell(["YouOwn: ", (!user ? "-" : user.tokens[token.name] || 0)], 120)}
+        {cell(Buy, 40, true)}
       </tr>
       <tr>
-        {cell(["MkCap: ", Value(token.price * token.count)])}
-        {cell(["Supply: ", token.count])}
-        {cell(Sell, true)}
+        {cell(["MkCap: ", Value(token.price * token.count)], 160)}
+        {cell(["Supply: ", token.count], 120)}
+        {cell(Sell, 40, true)}
       </tr>
     </tbody>
   </table>;
@@ -95,15 +96,15 @@ const UserTitle = user =>
   </span>;
 
 const User = user => {
-  return <div>
-    <div style={{fontSize:"16px", lineHeight: "16px"}}>
+  return <div style={{marginBottom: "10px"}}>
+    <div style={{fontSize:"16px", lineHeight: "16px", marginBottom: "4px"}}>
       {UserTitle(user)}
     </div>
     <table borderCollapse="collapse" cellpadding="0" cellspacing="0" border="0">
       <tbody>
         {Object.keys(user.tokens).map(tokenName => {
           return <tr style={{fontSize:"12px"}}>
-            <td style={{paddingRight: "4px", textAlign: "right"}}>
+            <td style={{paddingRight: "4px", paddingBottom: "2px", textAlign: "right", width: "32px"}}>
               {user.tokens[tokenName]}
             </td>
             <td style={{color:"#777777", fontStyle:"italic"}}>
@@ -278,19 +279,21 @@ const Piramidex = createClass({
 
     const UserList = this.state.piramidex.users.map(User);
 
-    const CreateToken = <span>
-      {Link("CreateToken", async () => this.createToken())}
-    </span>;
 
     const userInfo = user ? UserTitle(user) : "(signing up as '" + this.state.registerName + "'...)";
 
     return <div 
       className={this.state.blink ? "blink" : ""}
-      style={{width:"100%", height:"100%", backgroundColor: "#E0E0E0"}}>
+      style={{
+        width:"100%",
+        height:"100%",
+        backgroundColor: "#FAFAFA",
+        color: "#505154",
+      }}>
       <Area title="PIRAMIDEX" right={userInfo}>{Piramidex}</Area>
-      <Area title="Token List">{TokenList}</Area>
       <Area title="User List">{UserList}</Area>
-      <Area title="Create Token">{CreateToken}</Area>
+      <Area title="Token List">{TokenList}</Area>
+      <Area title={Link("Create Token", async () => this.createToken())}></Area>
     </div>;
   }
 });
