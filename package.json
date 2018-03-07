@@ -1,0 +1,24 @@
+{
+  "name": "ethereum-query",
+  "version": "0.1.0",
+  "description": "Ethereum query.",
+  "main": "index.js",
+  "scripts": {
+    "build": "browserify -t babelify index.js -o index.min.js"
+  },
+  "author": "MaiaVictor",
+  "license": "MIT",
+  "dependencies": {
+    "eth-lib": "^0.2.8",
+    "inferno": "^4.0.8",
+    "inferno-create-class": "^4.0.8"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-inferno": "^4.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babelify": "^8.0.0",
+    "http-server": "^0.11.1"
+  }
+}
