@@ -216,7 +216,7 @@ const Piramidex = createClass({
     const account = this.state.account;
 
     const Piramidex = <table style={{
-      width:"100%",
+      width:"300px",
       marginBottom:"6px",
       fontSize: "13px",
       fontFamily: "monospace"}}>
