@@ -28,7 +28,7 @@ const Area = createClass({
           cursor: "pointer",
           textDecoration: "underline",
           padding: "4px"}}>
-        <span>{this.props.title}</span>
+        <span className="unselectable">{this.props.title}</span>
         {!this.props.right ? null : <span style={{float:"right"}}>{this.props.right}</span>}
       </div>
       {this.state.expand
@@ -45,7 +45,7 @@ const Link = (title, action) => {
     textDecoration: "underline",
     cursor: "pointer"
   };
-  return <span style={style} onClick={action}>
+  return <span style={style} className="unselectable" onClick={action}>
     {title}
   </span>;
 };
