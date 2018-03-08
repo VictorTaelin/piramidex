@@ -141,22 +141,26 @@ const Piramidex = createClass({
     return localStorage.getItem("piramidex-private-key");
   },
   async refresh() {
-    const account = Eth.account.fromPrivate(this.getPrivateKey());
-    const lastBlockNumber = this.state && this.state.blockNumber;
-    const blockNumber = Eth.bytes.toNumber(await rpc("eth_blockNumber", []));
-    if (lastBlockNumber !== blockNumber) {
-      const getBalance = rpc("eth_getBalance", [account.address,"latest"]);
-      const [piramidex, balance] = await Promise.all([fetchPiramidex(), getBalance]);
-      account.balance = Eth.bytes.toNumber(balance) / 1000000000000000000;
-      this.setState({piramidex, account, blockNumber, blink: true});
-      setTimeout(() => this.setState({blink: false}), 2000);
-      if (!this.user() && !this.state.registerName) {
-        const registerName = prompt("Choose an user name:");
-        this.setState({registerName});
-        this.register(registerName);
+    try {
+      const account = Eth.account.fromPrivate(this.getPrivateKey());
+      const lastBlockNumber = this.state && this.state.blockNumber;
+      const blockNumber = Eth.bytes.toNumber(await rpc("eth_blockNumber", []));
+      if (lastBlockNumber !== blockNumber) {
+        const getBalance = rpc("eth_getBalance", [account.address,"latest"]);
+        const [piramidex, balance] = await Promise.all([fetchPiramidex(), getBalance]);
+        account.balance = Eth.bytes.toNumber(balance) / 1000000000000000000;
+        this.setState({piramidex, account, blockNumber, blink: true});
+        setTimeout(() => this.setState({blink: false}), 2000);
+        if (!this.user() && !this.state.registerName) {
+          const registerName = prompt("Choose an user name:");
+          this.setState({registerName});
+          this.register(registerName);
+        };
       };
-    };
-    setTimeout(() => this.refresh(), 1000);
+      setTimeout(() => this.refresh(), 1000);
+    } catch (e) {
+      setTimeout(() => this.refresh(), 1000);
+    }
   },
   user() {
     const myUsers = this.state.piramidex.users.filter(user => {
