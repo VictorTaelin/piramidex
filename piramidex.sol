@@ -40,7 +40,7 @@ contract Piramidex {
     tokens.push(Token({
       name: name,
       count: 0,
-      price: 10000000000000000
+      price: 100000000000000000
     }));
   }
 

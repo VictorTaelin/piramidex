@@ -58,13 +58,8 @@ const Value = eth => {
 };
 
 const Token = (token, user, buy, sell) => {
-  const cell = (child, width, last) => {
-    return <td style={{width: width+"px", textAlign: last ? "right" : "left", fontSize: "13px"}}>
-      {child}
-    </td>;
-  };
-  const Buy = Link("BUY", () => buy(token));
-  const Sell = Link("SELL", () => sell(token));
+  const userTokens = !user ? "-" : user.tokens[token.name] || 0;
+  // I won't try to justify this.
   return <table style={{marginBottom: "6px"}}>
     <thead style={{fontSize:"16px"}}>
       <tr>
@@ -75,14 +70,19 @@ const Token = (token, user, buy, sell) => {
     </thead>
     <tbody style={{fontFamily:"monospace", color: "#707177"}}>
       <tr>
-        {cell(["Price: ", Value(token.price)], 140)}
-        {cell(["YouOwn: ", (!user ? "-" : user.tokens[token.name] || 0)], 100)}
-        {cell(Buy, 40, true)}
+        <td style={{width:"320px", fontSize:"13px"}}>
+          You own {userTokens} of {token.count} circulating tokens.
+        </td>
       </tr>
       <tr>
-        {cell(["MkCap: ", Value(token.price * token.count)], 140)}
-        {cell(["Supply: ", token.count], 100)}
-        {cell(Sell, 40, true)}
+        <td style={{width:"320px", fontSize:"13px"}}>
+          {[Link("MAKE", () => buy(token)), " (pay ", Value(token.price), ")"]}
+        </td>
+      </tr>
+      <tr>
+        <td style={{width:"320px", fontSize:"13px"}}>
+          {[Link("BURN", () => sell(token)), " (get ", Value(token.price / 1.1), ")"]}
+        </td>
       </tr>
     </tbody>
   </table>;
@@ -206,10 +206,14 @@ const Piramidex = createClass({
     return this.send(method, params, weiVal, true);
   },
   async sell(token) {
-    const method = "sell(uint256,uint256)";
-    const params = [pir.big(String(this.user().id)), pir.big(String(token.id))];
-    const weiVal = Eth.nat.fromEther(0);
-    return this.send(method, params, weiVal, true);
+    if (!this.user() || !(this.user().tokens[token.name] > 0)) {
+      alert ("You don't have that token.");
+    } else {
+      const method = "sell(uint256,uint256)";
+      const params = [pir.big(String(this.user().id)), pir.big(String(token.id))];
+      const weiVal = Eth.nat.fromEther(0);
+      return this.send(method, params, weiVal, true);
+    }
   },
   render() {
     if (!this.state) {
